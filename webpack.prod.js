@@ -8,7 +8,7 @@ var extractAPP = new ExtractTextPlugin('app.css')
 module.exports = {
     entry: {
         bundler: path.join(__dirname, 'src/index.jsx'),
-        vendor: ['react', 'react-dom', 'mobx', 'mobx-react']
+        vendor: ['react', 'react-dom']
     },
 
     output: {
@@ -34,7 +34,7 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
-                    presets: ['es2015', 'react', 'stage-1'],
+                    presets: ['es2015', 'react', 'stage-1', 'react-optimize'],
                     plugins: ['transform-decorators-legacy']
                 }
             }, {
@@ -49,21 +49,22 @@ module.exports = {
         extractAPP,
         new webpack.DefinePlugin({
             'process.env':{
-                'NODE_ENV': JSON.stringify('development')
+                'NODE_ENV': JSON.stringify('production')
             }
         }),
         new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.DedupePlugin(),
         new webpack.ProvidePlugin({
             'React': 'react'
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor'
         }),
-        new BrowserSyncPlugin({
-            host: 'localhost',
-            port: 3000,
-            server: { baseDir: [__dirname] }
-        }, { reload: true }),
+        new webpack.optimize.UglifyJsPlugin({
+          compress: {
+              warnings: false
+          }
+        }),
         new webpack.NoErrorsPlugin()
     ]
 }
