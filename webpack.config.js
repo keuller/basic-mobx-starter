@@ -17,8 +17,8 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.js', '.jsx'],
-        modulesDirectories: ['src', 'node_modules']
+        extensions: ['.js', '.jsx'],
+        modules: ['src', 'node_modules']
     },
 
     node: {
@@ -39,20 +39,20 @@ module.exports = {
                 }
             }, {
                 test: /\.css/,
-                loader: extractAPP.extract(['css']),
+                loader: extractAPP.extract(['css-loader']),
                 exclude: /node_modules/
             }
         ]
     },
 
     plugins: [
+        new webpack.NoEmitOnErrorsPlugin(),
         extractAPP,
         new webpack.DefinePlugin({
             'process.env':{
                 'NODE_ENV': JSON.stringify('development')
             }
         }),
-        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.ProvidePlugin({
             'React': 'react'
         }),
@@ -63,7 +63,6 @@ module.exports = {
             host: 'localhost',
             port: 3000,
             server: { baseDir: [__dirname] }
-        }, { reload: true }),
-        new webpack.NoErrorsPlugin()
+        }, { reload: true })
     ]
 }

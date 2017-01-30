@@ -11,12 +11,12 @@ $ git clone https://github.com/keuller/basic-mobx-starter.git
 
 2. Install dependencies:
 ```
-$ npm install
+$ yarn // or npm install
 ```
 
 3. Start the application:
 ```
-$ npm start
+$ yarn run dev  // or npm run dev
 ```
 
 Your default browser will point out to **http://localhost:3000**.
